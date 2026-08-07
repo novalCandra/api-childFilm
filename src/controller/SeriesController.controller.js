@@ -1,6 +1,4 @@
-const { getAllMovies, getDetilsMovies, deleteMovies, createMovies, updateMovies } = require("../model/ModelSeries.model")
 const { GetAllSeriesService, getDetailsService, GetDetailsService, DeleteSeriesService, PostSeriesService, PutSeriesService } = require("../service/Series.service")
-
 const GetAllSeriesController = async (req, res) => {
     const [data] = await GetAllSeriesService()
     try {
@@ -74,7 +72,6 @@ const UpdateDataSeries = async (req, res) => {
             ...body
         })
     } catch (error) {
-        console.log(error)
         return res.json({
             status: false,
             message: "terjadi kesalahan di api",
