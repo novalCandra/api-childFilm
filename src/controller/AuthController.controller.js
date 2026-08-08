@@ -1,18 +1,29 @@
 const { modelPostRegisterAccount, modelCreateLoginAccount } = require("../model/modelUsers.model");
 const jwt = require("jsonwebtoken");
-var token = jwt.sign({ foor: "bar" }, 'shhh');
+let token = jwt.sign({ foor: "bar" }, 'shhh');
 const bcyrpt = require("bcrypt");
 const saltRounds = 10;
+
+const fs = require("node:fs")
+// KEY FILES
+const privatekeys = fs.readFileSync(process.env.JWT_PRIVATE, 'utf8')
+const publickeys = fs.readFileSync(process.env.JWT_PUBLIC, 'utf8') 
+
 const AuthLoginController = async (req, res) => {
     try {
         const { username, password } = req.body
+        if (!username || !password) {
+            return res.status(400).json({
+                status: false,
+                message: "username and passowrd required"
+            })
+        }
         const [data] = await modelCreateLoginAccount(username, password);
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
             return res.status(404).json({
                 message: "user not found"
             })
         }
-
         const user = data[0];
 
         const passwordHash = await bcyrpt.compare(
@@ -32,14 +43,19 @@ const AuthLoginController = async (req, res) => {
                 id: user.id,
                 username: user.username
             },
-            process.env.JWT_SECRETKEY,
+            privatekeys,
             {
+                algorithm: "PS256",
                 expiresIn: "1d"
-            }
+            },
         )
         return res.json({
             message: "login success",
-            data: data,
+            data: {
+                id: user.id,
+                username: user.username,
+                password: user.password
+            },
             token
         })
     } catch (error) {

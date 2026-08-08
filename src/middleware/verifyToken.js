@@ -1,14 +1,9 @@
 const jwt = require("jsonwebtoken");
-
+const fs = require("node:fs")
+// KEY FILES
+const privatekeys = fs.readFileSync(process.env.JWT_PRIVATE, 'utf8')
+const publickeys = fs.readFileSync(process.env.JWT_PUBLIC, 'utf8')
 const VerifyToken = (req, res, next) => {
-    const secretKey = process.env.JWT_SECRETKEY ?? "";
-
-    if (!secretKey) {
-        return res.status(500).json({
-            status: false,
-            message: "JWT secret key is not configured"
-        });
-    }
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader)
@@ -16,7 +11,7 @@ const VerifyToken = (req, res, next) => {
                 status: false,
                 message: "Authorization header is missing"
             });
-            
+
         if (!authHeader.startsWith("JWT "))
             return res.status(401).json({
                 status: false,
@@ -26,7 +21,7 @@ const VerifyToken = (req, res, next) => {
 
         const token = authHeader.split(" ")[1];
 
-        const decoded = jwt.verify(token, secretKey);
+        const decoded = jwt.verify(token, publickeys, { algorithms: ["PS256"] });
 
         req.user = decoded;
 
