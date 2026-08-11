@@ -1,4 +1,4 @@
-const { modelGetallGenre, modelCreateGenre, modelDeleteGenre } = require("../model/modelGenre.model")
+const { modelGetallGenre, modelCreateGenre, modelDeleteGenre } = require("../model/modelGenre.module")
 
 const getAllServiceGenre = async () => {
     const getService = await modelGetallGenre();
