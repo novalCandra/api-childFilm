@@ -1,10 +1,10 @@
 const asyncHeadler = require("../handler/asyncHeaderl")
 const { SendSuccess, sendError } = require("../helper/respon.helper")
-const { getDataEpisodeModule, DeleteDataEpisodeModule, createEpisodeModule } = require("../model/ModelEpisode.module")
+const { getDataServiceEpisode, deleteDataServiceEpisode, postDataServiceEpisode } = require("../service/Episode.service")
 
 const getEpisodeController = asyncHeadler(
     async (req, res) => {
-        const [data] = await getDataEpisodeModule()
+        const [data] = await getDataServiceEpisode()
         try {
             SendSuccess(res, "sucess episode Alll", data)
         } catch (error) {
@@ -19,7 +19,7 @@ const createEpisodeController = asyncHeadler(
             ...req.body,
             image_link: `${req.protocol}://${req.get('host')}/assets/image/${req.file.filename}`
         };
-        await createEpisodeModule(body)
+        await postDataServiceEpisode(body)
         try {
             SendSuccess(res, "sucess Create episode", body)
         } catch (error) {
@@ -31,7 +31,7 @@ const createEpisodeController = asyncHeadler(
 const deleteEpisodeController = asyncHeadler(
     async (req, res) => {
         const { id } = req.params
-        await DeleteDataEpisodeModule(id)
+        await deleteDataServiceEpisode(id)
         try {
             SendSuccess(res, "sucess Delete episode")
         } catch (error) {
