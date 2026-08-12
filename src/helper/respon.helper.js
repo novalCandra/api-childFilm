@@ -5,6 +5,14 @@ const SendSuccess = (res, message, data = null, statusCode = 200) => {
         data
     })
 }
+const SendSuccessAuth = (res, message, data = null, statusCode = 201, token = null) => {
+    res.status(statusCode).json({
+        status: true,
+        message,
+        data,
+        token
+    })
+}
 
 
 const sendError = (res, message, statusCode = 500) => {
@@ -17,5 +25,6 @@ const sendError = (res, message, statusCode = 500) => {
 
 module.exports = {
     SendSuccess,
+    SendSuccessAuth,
     sendError
 }
