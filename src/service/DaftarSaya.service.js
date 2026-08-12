@@ -1,4 +1,4 @@
-const { getAllModelDaftarSaya, DeleteModelDaftarSaya, postModelDaftarSaya, updateModelDaftarSaya, getDetailUpdate } = require("../model/ModelDaftarSaya.model");
+const { getAllModelDaftarSaya, DeleteModelDaftarSaya, postModelDaftarSaya, updateModelDaftarSaya, getDetailUpdate } = require("../model/ModelDaftarSaya.module");
 const pollDbMysql = require("../config/database");
 const GetAllServiceDaftarSaya = async () => {
     const getDataDaftarSaya = await getAllModelDaftarSaya();

@@ -1,4 +1,4 @@
-const { getAllMovies, getDetilsMovies, deleteMovies, createMovies, updateMovies } = require("../model/ModelSeries.model")
+const { getAllMovies, getDetilsMovies, deleteMovies, createMovies, updateMovies } = require("../model/ModelSeries.module")
 
 const GetAllSeriesService = async () => {
     const data = await getAllMovies()
